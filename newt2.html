@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Newton's Method</title> 
+        <style>
+            .heading{
+                color: rgb(89, 0, 255); 
+                text-align: center; 
+            } 
+            p{
+                text-align: center; 
+            } 
+            form{
+                text-align: center; 
+                padding: 10px; 
+            }
+            .text-center {
+                text-align: center;
+            } 
+            button{
+                font-size: small;
+                font-weight: 900; 
+                padding: 9px; 
+                color: rgb(25, 165, 247);
+                background-color: rgb(158, 241, 200); 
+            } 
+            ul{
+                text-align: center; 
+                list-style: none; 
+            } 
+            .result{
+                text-align: center; 
+                font: bolder;
+                color:rgb(25, 165, 247);
+            }
+
+        </style>
+        <script>  
+
+
+            function func1(x){
+                return x**2 - 2;
+            } 
+            function dydx_func1(x){ 
+                return 2*x; 
+            }
+            
+            function func2(x){
+                return x**4 + 3*x**3 - x - 10
+            }
+            function dydx_func2(x){
+                return 4*x**3 + 9*x**2 - 1
+            }
+
+            function func3(x){
+                return Math.cos(x) - x 
+            }
+            function dydx_func3(x){
+                return -Math.sin(x) - 1 
+            }
+
+           
+
+            document.addEventListener('DOMContentLoaded',function (){ 
+                document.querySelectorAll('button').forEach(function(button) {
+                    button.onclick = function (){
+
+                        if (button.dataset.key === "run"){
+                            // newtons method 
+                            var select = document.getElementById('functions'); 
+                            var value = select.options[select.selectedIndex].value; 
+                            var initial_xnot = parseInt(document.getElementById("Xnot").value); 
+                            var iterations = parseInt(document.getElementById("Iterations").value); 
+
+                            if (value === "func1"){
+                                // x^2 - 2 
+                                let xnot = initial_xnot; 
+                                for (let index = 1; index <= iterations; index++) {
+                                    xnot = xnot - (func1(xnot) / dydx_func1(xnot));
+                                    const li = document.createElement('li'); 
+                                    li.innerHTML = `X${index}:  ${xnot}`;  
+                                    document.querySelector('#results').append(li);  
+                                };
+                            }; 
+
+                            if (value === "func2"){
+                                // x^4 + 3x^3 - x - 10 
+                                let xnot = initial_xnot; 
+                                for (let index = 1; index <= iterations; index++) {
+                                    xnot = xnot - (func2(xnot) / dydx_func2(xnot)); 
+                                    const li = document.createElement('li');
+                                    li.innerHTML = `X${index}:  ${xnot}`; 
+                                    document.querySelector('#results').append(li);  
+                                };
+                            }; 
+
+                            if (value === "func3"){
+                                // cos(x) - x
+                                let xnot = initial_xnot; 
+                                for (let index = 1; index <= iterations; index++) {
+                                    xnot = xnot - (func3(xnot) / dydx_func3(xnot)); 
+                                    const li = document.createElement('li'); 
+                                    li.innerHTML = `X${index}:  ${xnot}`; 
+                                    document.querySelector('#results').append(li);   
+                                };
+                            };
+
+
+                            
+                        }
+
+
+                        else if (button.dataset.key === "clear"){ 
+                            // refresh the webpage to its original state 
+                            window.location.reload(); 
+                        }; 
+                    };
+                });
+            });
+
+
+
+        </script>
+    </head> 
+    <body>
+        <h2 class = "heading">NEWTONS METHOD</h2> 
+        <p>
+            Newton's Method is a way of approximating when a function is equal to zero <br>
+            Xnot is an initial guess of when the function is equal to zero <br>
+            The approximation will become more accurate each iteration <br>
+        </p>
+        <form id="main"> 
+             
+            Func <select id="functions"> 
+                <option value = "none">None</option> 
+                <option value = "func1">x^2 - 2</option> 
+                <option value = "func2">x^4 + 3x^3 - x - 10</option> 
+                <option value = "func3">cos(x) - x</option> 
+            </select>
+            Xnot <input autofocus id ="Xnot" placeholder="Xnot" type="text"> 
+            Iter <input autofocus id = "Iterations" placeholder = "Iterations" type = "text"> 
+        </form>
+        <br> 
+        <div class="text-center"> 
+            <button data-key = "clear" onclick="window.location.reload();">Clear</button>  
+            <button data-key = "run" >Run</button>  
+        </div>
+        <br> 
+        <div class= "result">Results <br> </div>
+        <ul id="results">
+        </ul> 
+    </body>
+
+</html>  
